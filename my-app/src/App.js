@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import dashboard from './dashboard/dashboard';
+import Dashboard from "./dashboard/dashboard";
 
 function App() {
   return (
@@ -19,7 +20,8 @@ function App() {
           Learn React
         </a>
         <h1>asdf</h1>
-        <dashboard />
+        asdf
+        <Dashboard></Dashboard>
       </header>
     </div>
   );
