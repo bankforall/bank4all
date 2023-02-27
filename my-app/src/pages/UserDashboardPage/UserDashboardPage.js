@@ -29,7 +29,7 @@ export const UserDashboardPage = () => {
             {communityLenderList.map((lender, i) => {
               return (
                 <ListItem>
-                  <ListItemText primary={lender}></ListItemText>
+                  <ListItemText key={i} primary={lender}></ListItemText>
                 </ListItem>
               )
             })}
