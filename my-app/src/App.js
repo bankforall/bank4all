@@ -1,16 +1,15 @@
 import logo from './logo.svg';
 import './App.css';
-import Dashboard from "./dashboard/dashboard";
-import Login from "./login/login";
+import { LoginPage } from './pages/LoginPage';
+import { UserDashboardPage } from './pages/UserDashboardPage';
+
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Dashboard></Dashboard>
-        <Login></Login>
-      </header>
+      <h1>Hello World</h1>
+      <LoginPage />
+      <UserDashboardPage />
     </div>
   );
 }
