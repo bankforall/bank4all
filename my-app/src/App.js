@@ -1,17 +1,23 @@
-import logo from './logo.svg';
 import './App.css';
-import Dashboard from "./dashboard/dashboard";
-import Login from "./login/login";
-import UserInformation from "./userInformation/userInformation";
+import {
+  BrowserRouter,
+  Routes,
+  Route
+} from "react-router-dom";
+import { LoginPage } from './pages/LoginPage';
+import { UserDashboardPage } from './pages/UserDashboardPage';
+import { useState } from 'react';
+
 
 function App() {
+  const [user, setUser] = useState(true)
   return (
-    <div className="App">
-      <header className="App-header">
-        <UserInformation></UserInformation>
-      </header>
-      <Dashboard></Dashboard>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={user ? (<UserDashboardPage/>) : (<LoginPage/>)} />
+      </Routes>
+    </BrowserRouter>
+
   );
 }
 
