@@ -303,7 +303,7 @@
 </style>
 
 <!-- Toolbar -->
-<div class="toolbar" role="banner">
+<div *ngIf="isShowDemo" class="toolbar" role="banner">
   <img
     width="40"
     alt="Angular Logo"
@@ -325,7 +325,7 @@
     </a>
 </div>
 
-<div class="content" role="main">
+<div *ngIf="isShowDemo" class="content" role="main">
 
   <!-- Highlight Card -->
   <div class="card highlight-card card-small">
@@ -480,5 +480,12 @@
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 <!-- * * * * * * * * * * End of Placeholder * * * * * * * * * * * -->
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-
+<div *ngIf="isDebugRoute">
+  <nav>
+    <ul>
+      <li><a routerLink="/login" routerLinkActive="active" ariaCurrentWhenActive="page">Login</a></li>
+      <li><a routerLink="/dashboard" routerLinkActive="active" ariaCurrentWhenActive="page">Dashboard</a></li>
+    </ul>
+  </nav>
+</div>
 <router-outlet></router-outlet>
