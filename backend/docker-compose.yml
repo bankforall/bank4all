@@ -7,5 +7,7 @@ services:
       - dev
     env_file:
       - .env
+    volumes:
+      - ./mongodb:/data/db
     ports:
       - 27017:27017
