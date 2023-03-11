@@ -38,49 +38,48 @@ const User = mongoose.model("User", userSchema);
 app.use(express.json());
 
 // Endpoints (continued)
-app.post("/signIn", (req, res) => {
+app.post("/signIn", async (req, res) => {
   const { username, password } = req.body;
-  User.findOne({ username: username }, (err, user) => {
-    if (err) {
-      res.status(500).json({ message: err.message });
-    } else if (!user) {
+  try {
+    const user = await User.findOne({ username: username });
+    if (!user) {
       res.status(400).json({ message: "User not found" });
     } else if (user.password !== password) {
       res.status(400).json({ message: "Invalid password" });
     } else {
       res.status(200).json({ message: "Authentication successful" });
     }
-  });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 });
 
-app.post("/signUp", (req, res) => {
+app.post("/signUp", async (req, res) => {
   const { fullName, email, password, phoneNumber } = req.body;
-  const user = new User({
-    username: email,
-    password: password,
-    fullName: fullName,
-    email: email,
-    phoneNumber: phoneNumber,
-    balance: 0,
-    microfinanceBalance: 0,
-    peerShareBalance: 0,
-    peerShareDetails: [],
-  });
-  user.save((err, newUser) => {
-    if (err) {
-      res.status(400).json({ message: err.message });
-    } else {
-      res.status(200).json({ message: "Registration successful" });
-    }
-  });
+  try {
+    const user = new User({
+      username: email,
+      password: password,
+      fullName: fullName,
+      email: email,
+      phoneNumber: phoneNumber,
+      balance: 0,
+      microfinanceBalance: 0,
+      peerShareBalance: 0,
+      peerShareDetails: [],
+    });
+    await user.save();
+    res.status(200).json({ message: "Registration successful" });
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
 });
 
-app.post("/balanceSummary", (req, res) => {
+app.post("/balanceSummary", async (req, res) => {
   const { username } = req.body;
-  User.findOne({ username: username }, (err, user) => {
-    if (err) {
-      res.status(500).json({ message: err.message });
-    } else if (!user) {
+  try {
+    const user = await User.findOne({ username: username });
+    if (!user) {
       res.status(400).json({ message: "User not found" });
     } else {
       res.status(200).json({
@@ -89,7 +88,9 @@ app.post("/balanceSummary", (req, res) => {
         peerShareBalance: user.peerShareBalance,
       });
     }
-  });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 });
 
 app.post("/addMoney", (req, res) => {

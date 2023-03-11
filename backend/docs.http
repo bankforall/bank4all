@@ -5,8 +5,8 @@ POST {{endpoint}}/signIn
 Content-Type: application/json
 
 {
-    "username": "user",
-    "password": "password"
+    "username": "string",
+    "password": "string"
 }
 
 ### signUp
