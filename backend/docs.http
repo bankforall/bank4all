@@ -1,0 +1,51 @@
+@endpoint=http://localhost:3000
+
+### signIn
+POST {{endpoint}}/signIn
+Content-Type: application/json
+
+{
+    "username": "string",
+    "password": "string"
+}
+
+### signUp
+POST {{endpoint}}/signUp
+Content-Type: application/json
+
+{
+    "fullName": "string",
+    "email": "string",
+    "password": "string",
+    "phoneNumber": "string"
+}
+
+### balanceSummary
+POST {{endpoint}}/balanceSummary
+Content-Type: application/json
+
+{
+    "username": "user",
+}
+
+### addMoney ฝากเงินเข้าใช้พวก third-party
+POST {{endpoint}}/addMoney
+Content-Type: application/json
+
+{
+    "amount": 100
+}
+
+### withdrawn
+POST {{endpoint}}/withdrawn
+Content-Type: application/json
+
+{
+    "amount": 100
+}
+
+### peerShareSummary
+GET {{endpoint}}/peerShareSummary?username=myuser
+
+### getAllpeerShareDetail
+GET {{endpoint}}/getAllpeerShareDetail?username=myuser
