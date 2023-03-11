@@ -1,0 +1,28 @@
+<div class="login-container">
+    <div class="login-box">
+        <div class="login-box-header">
+            <h1>Login</h1>
+        </div>
+        <div class="login-box-content">
+            <form class="login-form" #loginForm="ngForm">
+                <div class="login-box-content-input">
+                    <input [(ngModel)]="username" type="text" name="username" placeholder="Username">
+                </div>
+                <div class="login-box-content-input">
+                    <input [(ngModel)]="password" type="password" name="password" placeholder="Password">
+                </div>
+                <div class="login-box-content-input">
+                  <button
+                    mat-raised-button
+                    color="primary"
+                    (click)="onLoginClick()">
+                    Login
+                  </button>
+                </div>
+                <div>
+                  <button mat-raised-button disabled >Register</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

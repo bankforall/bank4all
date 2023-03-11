@@ -1,27 +1,15 @@
-# BankForThePoor
+# Bank For All
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.0.
+this project is using angular as frontend and expressJS as backend
 
-## Development server
+to run frontend locally please go to front-end folder and run `npm install` then `ng serve`
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+to run backend locally please go to backend folder and run `npm install` then `npm start`
 
-## Code scaffolding
+both front and back have their own readme file. please refer to them for more information
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+###### note that there's a react frontend in the project but it's not used anymore due to my lack of framework knowledge lol
 
-## Build
+### to contribute, please feel free to make a pull request. we're currently working on business logic and database design right now. but can use extra hands on the frontend. especially the css side.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+for feature request/milestone. please refer to the project board. we're using github project board to manage the project.
