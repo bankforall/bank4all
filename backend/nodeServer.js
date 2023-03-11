@@ -2,6 +2,7 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
 const express = require("express");
+const bcrypt = require("bcrypt");
 const app = express();
 mongoose.connect(process.env.DB_CONNECT, {
   useNewUrlParser: true,
@@ -14,11 +15,21 @@ db.once("open", () => {
 });
 
 const userSchema = new mongoose.Schema({
-  username: String,
   password: String,
-  fullName: String,
-  email: String,
-  phoneNumber: String,
+  fullName: {
+    type: String,
+    require: true,
+  },
+  email: {
+    require: true,
+    type: String,
+    unique: true,
+  },
+  phoneNumber: {
+    require: true,
+    type: String,
+    unique: true,
+  },
   balance: Number,
   microfinanceBalance: Number,
   peerShareBalance: Number,
@@ -40,14 +51,18 @@ app.use(express.json());
 // Endpoints (continued)
 app.post("/signIn", async (req, res) => {
   const { username, password } = req.body;
+  let find = { phoneNumber: username };
+  if (username.indexOf("@") > 0) {
+    find = { email: username };
+  }
   try {
-    const user = await User.findOne({ username: username });
+    const user = await User.findOne(find);
     if (!user) {
       res.status(400).json({ message: "User not found" });
-    } else if (user.password !== password) {
-      res.status(400).json({ message: "Invalid password" });
-    } else {
+    } else if (bcrypt.compareSync(password, user.password)) {
       res.status(200).json({ message: "Authentication successful" });
+    } else {
+      res.status(400).json({ message: "Invalid password" });
     }
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -59,7 +74,7 @@ app.post("/signUp", async (req, res) => {
   try {
     const user = new User({
       username: email,
-      password: password,
+      password: bcrypt.hashSync(password, 10),
       fullName: fullName,
       email: email,
       phoneNumber: phoneNumber,
@@ -71,7 +86,14 @@ app.post("/signUp", async (req, res) => {
     await user.save();
     res.status(200).json({ message: "Registration successful" });
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    if (err.code === 11000) {
+      res.status(400).json({
+        message: "มีข้อมูลซ้ำกันในระบบ",
+        data: err.keyValue,
+      });
+    } else {
+      res.status(400).json({ message: err.message });
+    }
   }
 });
 
