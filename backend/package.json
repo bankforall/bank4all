@@ -5,7 +5,7 @@
   "main": "nodeServer.js",
   "scripts": {
     "test": "jest",
-    "dev": "cross-env NODE_ENV=development node nodeServer",
+    "dev": "cross-env NODE_ENV=development node --watch nodeServer",
     "start": "cross-env NODE_ENV=production node nodeServer"
   },
   "repository": {

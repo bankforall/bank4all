@@ -10,7 +10,7 @@ Content-Type: application/json
 }
 
 ### signUp
-POST {{endpoint}}/signIn
+POST {{endpoint}}/signUp
 Content-Type: application/json
 
 {
