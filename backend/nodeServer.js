@@ -1,10 +1,16 @@
 // Database
-const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/myapp', { useNewUrlParser: true, useUnifiedTopology: true });
+require("dotenv").config();
+const mongoose = require("mongoose");
+const express = require("express");
+const app = express();
+mongoose.connect(process.env.DB_CONNECT, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', () => {
-  console.log('Connected to database');
+db.on("error", console.error.bind(console, "connection error:"));
+db.once("open", () => {
+  console.log("Connected to database");
 });
 
 const userSchema = new mongoose.Schema({
@@ -21,33 +27,33 @@ const userSchema = new mongoose.Schema({
       memberNumber: Number,
       paymentAmount: Number,
       creditScore: Number,
-      joinable: Boolean
-    }
-  ]
+      joinable: Boolean,
+    },
+  ],
 });
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model("User", userSchema);
 
 // Middleware
 app.use(express.json());
 
 // Endpoints (continued)
-app.post('/signIn', (req, res) => {
+app.post("/signIn", (req, res) => {
   const { username, password } = req.body;
   User.findOne({ username: username }, (err, user) => {
     if (err) {
       res.status(500).json({ message: err.message });
     } else if (!user) {
-      res.status(400).json({ message: 'User not found' });
+      res.status(400).json({ message: "User not found" });
     } else if (user.password !== password) {
-      res.status(400).json({ message: 'Invalid password' });
+      res.status(400).json({ message: "Invalid password" });
     } else {
-      res.status(200).json({ message: 'Authentication successful' });
+      res.status(200).json({ message: "Authentication successful" });
     }
   });
 });
 
-app.post('/signUp', (req, res) => {
+app.post("/signUp", (req, res) => {
   const { fullName, email, password, phoneNumber } = req.body;
   const user = new User({
     username: email,
@@ -58,50 +64,50 @@ app.post('/signUp', (req, res) => {
     balance: 0,
     microfinanceBalance: 0,
     peerShareBalance: 0,
-    peerShareDetails: []
+    peerShareDetails: [],
   });
   user.save((err, newUser) => {
     if (err) {
       res.status(400).json({ message: err.message });
     } else {
-      res.status(200).json({ message: 'Registration successful' });
+      res.status(200).json({ message: "Registration successful" });
     }
   });
 });
 
-app.post('/balanceSummary', (req, res) => {
+app.post("/balanceSummary", (req, res) => {
   const { username } = req.body;
   User.findOne({ username: username }, (err, user) => {
     if (err) {
       res.status(500).json({ message: err.message });
     } else if (!user) {
-      res.status(400).json({ message: 'User not found' });
+      res.status(400).json({ message: "User not found" });
     } else {
       res.status(200).json({
         balance: user.balance,
         microfinanceBalance: user.microfinanceBalance,
-        peerShareBalance: user.peerShareBalance
+        peerShareBalance: user.peerShareBalance,
       });
     }
   });
 });
 
-app.post('/addMoney', (req, res) => {
+app.post("/addMoney", (req, res) => {
   const { username, amount } = req.body;
   // Add money logic
 });
 
-app.post('/withdrawn', (req, res) => {
+app.post("/withdrawn", (req, res) => {
   const { username, amount } = req.body;
   // Withdraw money logic
 });
 
-app.get('/peerShareSummary', (req, res) => {
+app.get("/peerShareSummary", (req, res) => {
   const { username } = req.query;
   // Peer share summary logic
 });
 
-app.get('/getAllpeerShareDetail', (req, res) => {
+app.get("/getAllpeerShareDetail", (req, res) => {
   const { username } = req.query;
   // Get all peer share detail logic
 });
