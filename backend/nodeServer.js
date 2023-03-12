@@ -89,7 +89,6 @@ app.post("/signUp", async (req, res) => {
   const { fullName, email, password, phoneNumber } = req.body;
   try {
     const user = new User({
-      username: email,
       password: bcrypt.hashSync(password, 10),
       fullName: fullName,
       email: email,
@@ -100,7 +99,6 @@ app.post("/signUp", async (req, res) => {
       peerShareDetails: [],
     });
     await user.save();
-    console.log({ user });
     req.session.user = user;
     res.status(200).json({ message: "Registration successful" });
   } catch (err) {
@@ -115,8 +113,9 @@ app.post("/signUp", async (req, res) => {
   }
 });
 
-app.post("/balanceSummary", auth_middleware, async (req, res) => {
+app.get("/balanceSummary", auth_middleware, async (req, res) => {
   try {
+    // * ดึงแยก user โดยใช้ _id แทน username
     const user = await User.findById(req.session.user._id);
     if (!user) {
       res.status(400).json({ message: "User not found" });
@@ -134,22 +133,24 @@ app.post("/balanceSummary", auth_middleware, async (req, res) => {
 });
 
 app.post("/addMoney", (req, res) => {
-  const { username, amount } = req.body;
+  const { amount } = req.body;
+  // * เอา username ออก ยืนยันผ่าน session แทน
   // Add money logic
 });
 
 app.post("/withdrawn", (req, res) => {
-  const { username, amount } = req.body;
+  const { amount } = req.body;
+  // * เอา username ออก ยืนยันผ่าน session แทน
   // Withdraw money logic
 });
 
 app.get("/peerShareSummary", (req, res) => {
-  const { username } = req.query;
+  // * เอา username ออก ยืนยันผ่าน session แทน
   // Peer share summary logic
 });
 
 app.get("/getAllpeerShareDetail", (req, res) => {
-  const { username } = req.query;
+  // * เอา username ออก ยืนยันผ่าน session แทน
   // Get all peer share detail logic
 });
 
