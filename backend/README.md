@@ -1,13 +1,20 @@
 # backend
 
 diagram db: https://dbdiagram.io/d/6404ccf2296d97641d8589c7 <br />
-source api: https://docs.google.com/document/d/1CPJrx3pA0Jv5GVAcEpaOK1QWkTm8xNUX-t-2zn_s8hI/edit
+source api: https://docs.google.com/document/d/1CPJrx3pA0Jv5GVAcEpaOK1QWkTm8xNUX-t-2zn_s8hI/edi
 
 ---
 
 ### api docs
 
+[`docs.http`](./docs.http) file for test API (use [REST client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) vscode extension)
+
 ---
+
+#### ยังไม่ได้ login
+
+> **Note**
+> set cookies after success<br>`Set-Cookie` ใน response headers ใช้สำหรับ auth
 
 <details>
  <summary><code>POST</code> <code><b>/signIn</b></code></summary>
@@ -21,10 +28,11 @@ source api: https://docs.google.com/document/d/1CPJrx3pA0Jv5GVAcEpaOK1QWkTm8xNUX
 
 ##### Responses
 
-> | http code | content-type       | response                              |
-> | --------- | ------------------ | ------------------------------------- |
-> | `200`     | `application/json` | `{"status":"success", "token":token}` |
-> | `400`     | `application/json` | `{"status":"wrong"}`                  |
+> | http code | content-type       | response                                  |
+> | --------- | ------------------ | ----------------------------------------- |
+> | `200`     | `application/json` | `{"message":"Authentication successful"}` |
+> | `400`     | `application/json` | `{"message":"Invalid password"}`          |
+> | `500`     | `application/json` | `{"message":"error"}`                     |
 
 </details>
 
@@ -42,27 +50,34 @@ source api: https://docs.google.com/document/d/1CPJrx3pA0Jv5GVAcEpaOK1QWkTm8xNUX
 
 ##### Responses
 
-> | http code | content-type       | response                     |
-> | --------- | ------------------ | ---------------------------- |
-> | `200`     | `application/json` | `{}`                         |
-> | `400`     | `application/json` | `{"msg": "something wrong"}` |
+> | http code | content-type       | response                                 |
+> | --------- | ------------------ | ---------------------------------------- |
+> | `200`     | `application/json` | `{"message": "Registration successful"}` |
+> | `400`     | `application/json` | `{"msg": "something wrong"}`             |
 
 </details>
 
+---
+
+#### login แล้ว (ยืนยันตัวตนด้วย cookie)
+
+> **Note**
+> จำเป็นต้องมี `Cookie` ใน headers ตอนส่ง
+
 <details>
- <summary><code>POST</code> <code><b>/balanceSummary</b></code> <code>(BusinessLogic)</code></summary>
+ <summary><code>GET</code> <code><b>/balanceSummary</b></code> <code>(BusinessLogic)</code></summary>
 
 ##### Details
 
+<pre>
 totalNumber: totalDeposit + microFinancePotentaiLending + peerSharePotentaiLending
 microFinancePotentiaLending: get all peerSharingDetail by userId then sumup potential amount
 peerSharePotentaiLending: get all microFinanceDetail by userId then sumup potential amount
+</pre>
 
 ##### Parameters
 
-> | name     | type     | data type | description |
-> | -------- | -------- | --------- | ----------- |
-> | username | required | string    | N/A         |
+> NONE
 
 ##### Responses
 
@@ -84,10 +99,9 @@ peerSharePotentaiLending: get all microFinanceDetail by userId then sumup potent
 
 ##### Parameters
 
-> | name     | type     | data type | description |
-> | -------- | -------- | --------- | ----------- |
-> | username | required | string    | N/A         |
-> | amount   | number   | string    | N/A         |
+> | name   | type     | data type | description |
+> | ------ | -------- | --------- | ----------- |
+> | amount | required | number    | N/A         |
 
 ##### Responses
 
@@ -103,10 +117,9 @@ peerSharePotentaiLending: get all microFinanceDetail by userId then sumup potent
 
 ##### Parameters
 
-> | name     | type     | data type | description |
-> | -------- | -------- | --------- | ----------- |
-> | username | required | string    | N/A         |
-> | amount   | number   | string    | N/A         |
+> | name   | type     | data type | description |
+> | ------ | -------- | --------- | ----------- |
+> | amount | required | number    | N/A         |
 
 ##### Responses
 
@@ -117,17 +130,13 @@ peerSharePotentaiLending: get all microFinanceDetail by userId then sumup potent
 
 </details>
 
----
-
 <details>
- <summary><code>GET</code> <code><b>/peerShareSummary?username={username}
+ <summary><code>GET</code> <code><b>/peerShareSummary
 </b></code></summary>
 
 ##### Parameters
 
-> | name     | type     | data type | description |
-> | -------- | -------- | --------- | ----------- |
-> | username | required | string    | N/A         |
+> NONE
 
 ##### Responses
 
@@ -139,7 +148,7 @@ peerSharePotentaiLending: get all microFinanceDetail by userId then sumup potent
 </details>
 
 <details>
- <summary><code>GET</code> <code><b>/getAllpeerShareDetail?username={username}
+ <summary><code>GET</code> <code><b>/getAllpeerShareDetail
 </b></code></summary>
 
 ##### Details
@@ -149,9 +158,7 @@ Joinable: query user credit then check with peerShareDetail credit
 
 ##### Parameters
 
-> | name     | type     | data type | description |
-> | -------- | -------- | --------- | ----------- |
-> | username | required | string    | N/A         |
+> NONE
 
 ###### peerShareDetail
 
