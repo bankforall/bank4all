@@ -132,24 +132,24 @@ app.get("/balanceSummary", auth_middleware, async (req, res) => {
   }
 });
 
-app.post("/addMoney", (req, res) => {
+app.post("/addMoney", auth_middleware, (req, res) => {
   const { amount } = req.body;
   // * เอา username ออก ยืนยันผ่าน session แทน
   // Add money logic
 });
 
-app.post("/withdrawn", (req, res) => {
+app.post("/withdrawn", auth_middleware, (req, res) => {
   const { amount } = req.body;
   // * เอา username ออก ยืนยันผ่าน session แทน
   // Withdraw money logic
 });
 
-app.get("/peerShareSummary", (req, res) => {
+app.get("/peerShareSummary", auth_middleware, (req, res) => {
   // * เอา username ออก ยืนยันผ่าน session แทน
   // Peer share summary logic
 });
 
-app.get("/getAllpeerShareDetail", (req, res) => {
+app.get("/getAllpeerShareDetail", auth_middleware, (req, res) => {
   // * เอา username ออก ยืนยันผ่าน session แทน
   // Get all peer share detail logic
 });
