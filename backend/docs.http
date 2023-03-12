@@ -5,7 +5,7 @@ POST {{endpoint}}/signIn
 Content-Type: application/json
 
 {
-    "username": "string",
+    "username": "email/phoneNumber",
     "password": "string"
 }
 
@@ -20,13 +20,7 @@ Content-Type: application/json
     "phoneNumber": "string"
 }
 
-### balanceSummary
-POST {{endpoint}}/balanceSummary
-Content-Type: application/json
 
-{
-    "username": "user",
-}
 
 ### addMoney ฝากเงินเข้าใช้พวก third-party
 POST {{endpoint}}/addMoney
@@ -44,8 +38,11 @@ Content-Type: application/json
     "amount": 100
 }
 
+### balanceSummary
+GET {{endpoint}}/balanceSummary
+
 ### peerShareSummary
-GET {{endpoint}}/peerShareSummary?username=myuser
+GET {{endpoint}}/peerShareSummary
 
 ### getAllpeerShareDetail
-GET {{endpoint}}/getAllpeerShareDetail?username=myuser
+GET {{endpoint}}/getAllpeerShareDetail
