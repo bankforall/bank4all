@@ -4,6 +4,19 @@ const mongoose = require("mongoose");
 const express = require("express");
 const bcrypt = require("bcrypt");
 const app = express();
+const session = require("express-session");
+const auth_middleware = require("./middleware/auth");
+
+app.set("trust proxy", 1); // trust first proxy
+var sess = {
+  secret: process.env.SESSION_SECRET,
+  cookie: {},
+};
+if (app.get("env") === "production") {
+  app.set("trust proxy", 1); // trust first proxy
+  sess.cookie.secure = true; // serve secure cookies
+}
+app.use(session(sess));
 mongoose.connect(process.env.DB_CONNECT, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -60,7 +73,10 @@ app.post("/signIn", async (req, res) => {
     if (!user) {
       res.status(400).json({ message: "User not found" });
     } else if (bcrypt.compareSync(password, user.password)) {
-      res.status(200).json({ message: "Authentication successful" });
+      req.session.user = user;
+      res.status(200).json({
+        message: "Authentication successful",
+      });
     } else {
       res.status(400).json({ message: "Invalid password" });
     }
@@ -84,6 +100,8 @@ app.post("/signUp", async (req, res) => {
       peerShareDetails: [],
     });
     await user.save();
+    console.log({ user });
+    req.session.user = user;
     res.status(200).json({ message: "Registration successful" });
   } catch (err) {
     if (err.code === 11000) {
@@ -97,17 +115,17 @@ app.post("/signUp", async (req, res) => {
   }
 });
 
-app.post("/balanceSummary", async (req, res) => {
-  const { username } = req.body;
+app.post("/balanceSummary", auth_middleware, async (req, res) => {
   try {
-    const user = await User.findOne({ username: username });
+    const user = await User.findById(req.session.user._id);
     if (!user) {
       res.status(400).json({ message: "User not found" });
     } else {
+      const user2obj = user.toObject();
       res.status(200).json({
-        balance: user.balance,
-        microfinanceBalance: user.microfinanceBalance,
-        peerShareBalance: user.peerShareBalance,
+        balance: user2obj.balance,
+        microfinanceBalance: user2obj.microfinanceBalance,
+        peerShareBalance: user2obj.peerShareBalance,
       });
     }
   } catch (err) {
