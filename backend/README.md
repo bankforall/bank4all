@@ -1,7 +1,7 @@
 # backend
 
 diagram db: https://dbdiagram.io/d/6404ccf2296d97641d8589c7 <br />
-source api: https://docs.google.com/document/d/1CPJrx3pA0Jv5GVAcEpaOK1QWkTm8xNUX-t-2zn_s8hI/edi
+source api: https://docs.google.com/document/d/1CPJrx3pA0Jv5GVAcEpaOK1QWkTm8xNUX-t-2zn_s8hI/edit
 
 ---
 
