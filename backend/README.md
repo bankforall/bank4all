@@ -14,10 +14,10 @@ source api: https://docs.google.com/document/d/1CPJrx3pA0Jv5GVAcEpaOK1QWkTm8xNUX
 
 ##### Parameters
 
-> | name     | type     | data type | description |
-> | -------- | -------- | --------- | ----------- |
-> | username | required | string    | N/A         |
-> | password | required | string    | N/A         |
+> | name     | type     | data type | description         |
+> | -------- | -------- | --------- | ------------------- |
+> | username | required | string    | email / phoneNumber |
+> | password | required | string    | N/A                 |
 
 ##### Responses
 
