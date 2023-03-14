@@ -3,6 +3,7 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 const express = require("express");
 const bcrypt = require("bcrypt");
+const cors = require("cors");
 const app = express();
 const session = require("express-session");
 const auth_middleware = require("./middleware/auth");
@@ -16,6 +17,12 @@ if (app.get("env") === "production") {
   app.set("trust proxy", 1); // trust first proxy
   sess.cookie.secure = true; // serve secure cookies
 }
+app.use(
+  cors({
+    // origin ของ frontend
+    origin: "http://localhost:3001",
+  })
+);
 app.use(session(sess));
 mongoose.connect(process.env.DB_CONNECT, {
   useNewUrlParser: true,
