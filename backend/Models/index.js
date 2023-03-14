@@ -40,7 +40,7 @@ const userSchema = new mongoose.Schema({
 });
 
 const User = mongoose.model("User", userSchema);
-const PeerShareDetails = mongoose.model("User", peerShareDetails);
+const PeerShareDetails = mongoose.model("PeerShareDetails", peerShareDetails);
 
 module.exports = {
   User,
