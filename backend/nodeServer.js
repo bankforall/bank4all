@@ -8,6 +8,7 @@ const app = express();
 const session = require("express-session");
 const auth_middleware = require("./middleware/auth");
 const { default: helmet } = require("helmet");
+const { User } = require("./Models");
 
 var sess = {
   secret: process.env.SESSION_SECRET,
@@ -36,37 +37,6 @@ db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => {
   console.log("Connected to database");
 });
-
-const userSchema = new mongoose.Schema({
-  password: String,
-  fullName: {
-    type: String,
-    require: true,
-  },
-  email: {
-    require: true,
-    type: String,
-    unique: true,
-  },
-  phoneNumber: {
-    require: true,
-    type: String,
-    unique: true,
-  },
-  balance: Number,
-  microfinanceBalance: Number,
-  peerShareBalance: Number,
-  peerShareDetails: [
-    {
-      memberNumber: Number,
-      paymentAmount: Number,
-      creditScore: Number,
-      joinable: Boolean,
-    },
-  ],
-});
-
-const User = mongoose.model("User", userSchema);
 
 // Middleware
 app.use(express.json());
