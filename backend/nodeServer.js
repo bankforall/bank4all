@@ -7,8 +7,8 @@ const cors = require("cors");
 const app = express();
 const session = require("express-session");
 const auth_middleware = require("./middleware/auth");
+const { default: helmet } = require("helmet");
 
-app.set("trust proxy", 1); // trust first proxy
 var sess = {
   secret: process.env.SESSION_SECRET,
   cookie: {},
@@ -20,9 +20,12 @@ if (app.get("env") === "production") {
 app.use(
   cors({
     // origin ของ frontend
-    origin: "http://localhost:3001",
+    origin: ["http://localhost:3001"],
+    credentials: true,
+    exposedHeaders: ["set-cookie"],
   })
 );
+app.use(helmet.hidePoweredBy());
 app.use(session(sess));
 mongoose.connect(process.env.DB_CONNECT, {
   useNewUrlParser: true,
