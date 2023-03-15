@@ -8,7 +8,14 @@ Content-Type: application/json
     "username": "email/phoneNumber",
     "password": "string"
 }
+### signIn สำหรับขอ token
+POST {{endpoint}}/signInJwt
+Content-Type: application/json
 
+{
+    "username": "email/phoneNumber",
+    "password": "string"
+}
 ### signUp
 POST {{endpoint}}/signUp
 Content-Type: application/json
@@ -40,6 +47,8 @@ Content-Type: application/json
 
 ### balanceSummary
 GET {{endpoint}}/balanceSummary
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NDBjYzk0OTU1MDhhMmU1ZTM5ZTA5NDciLCJfaWQiOiI2NDBjYzk0OTU1MDhhMmU1ZTM5ZTA5NDciLCJpYXQiOjE2Nzg4Mzk4OTUsImV4cCI6MTY3ODkyNjI5NX0.lU9gNWDpTw3-geGuNYzGz1_VPvi-C08Vh_CwAluKf0k
+# * ถ้าไม่ส่ง Authorization: Bearer {jwt_token} จะถือว่าเป็นการยืนยันผ่าน cookie session แทน
 
 ### peerShareSummary
 GET {{endpoint}}/peerShareSummary

@@ -3,11 +3,14 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 const express = require("express");
 const bcrypt = require("bcrypt");
+const cors = require("cors");
 const app = express();
 const session = require("express-session");
 const auth_middleware = require("./middleware/auth");
+const { default: helmet } = require("helmet");
+const { User } = require("./Models");
+const jwt = require("jsonwebtoken");
 
-app.set("trust proxy", 1); // trust first proxy
 var sess = {
   secret: process.env.SESSION_SECRET,
   cookie: {},
@@ -16,6 +19,15 @@ if (app.get("env") === "production") {
   app.set("trust proxy", 1); // trust first proxy
   sess.cookie.secure = true; // serve secure cookies
 }
+app.use(
+  cors({
+    // origin ของ frontend
+    origin: ["http://localhost:3001"],
+    credentials: true,
+    exposedHeaders: ["set-cookie"],
+  })
+);
+app.use(helmet.hidePoweredBy());
 app.use(session(sess));
 mongoose.connect(process.env.DB_CONNECT, {
   useNewUrlParser: true,
@@ -27,42 +39,11 @@ db.once("open", () => {
   console.log("Connected to database");
 });
 
-const userSchema = new mongoose.Schema({
-  password: String,
-  fullName: {
-    type: String,
-    require: true,
-  },
-  email: {
-    require: true,
-    type: String,
-    unique: true,
-  },
-  phoneNumber: {
-    require: true,
-    type: String,
-    unique: true,
-  },
-  balance: Number,
-  microfinanceBalance: Number,
-  peerShareBalance: Number,
-  peerShareDetails: [
-    {
-      memberNumber: Number,
-      paymentAmount: Number,
-      creditScore: Number,
-      joinable: Boolean,
-    },
-  ],
-});
-
-const User = mongoose.model("User", userSchema);
-
 // Middleware
 app.use(express.json());
 
-// Endpoints (continued)
-app.post("/signIn", async (req, res) => {
+// TODO: ย้ายไปเก็บใน Crontrollers
+const signInFunc = async (req, res, next) => {
   const { username, password } = req.body;
   let find = { phoneNumber: username };
   if (username.indexOf("@") > 0) {
@@ -73,17 +54,31 @@ app.post("/signIn", async (req, res) => {
     if (!user) {
       res.status(400).json({ message: "User not found" });
     } else if (bcrypt.compareSync(password, user.password)) {
-      req.session.user = user;
-      res.status(200).json({
+      let resp_obj = {
         message: "Authentication successful",
-      });
+      };
+      if (req.url === "/signInJwt") {
+        // * ถ้าเข้าสู่ระบบผ่าน signInJwt จะเป็นการขอ token แทน
+        resp_obj.token = jwt.sign(
+          { sub: user._id, _id: user._id },
+          process.env.JWT_SECRET,
+          { expiresIn: process.env.JWT_TOKEN_EXPIRES_IN }
+        );
+      } else req.session.user = user;
+
+      res.status(200).json(resp_obj);
     } else {
       res.status(400).json({ message: "Invalid password" });
     }
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
-});
+};
+
+// Endpoints (continued)
+app.post("/signIn", signInFunc);
+// ? ต้องทำ refresh token ด้วยหรือไม่?
+app.post("/signInJwt", signInFunc);
 
 app.post("/signUp", async (req, res) => {
   const { fullName, email, password, phoneNumber } = req.body;
@@ -116,7 +111,7 @@ app.post("/signUp", async (req, res) => {
 app.get("/balanceSummary", auth_middleware, async (req, res) => {
   try {
     // * ดึงแยก user โดยใช้ _id แทน username
-    const user = await User.findById(req.session.user._id);
+    const user = await User.findById(req.user._id);
     if (!user) {
       res.status(400).json({ message: "User not found" });
     } else {
