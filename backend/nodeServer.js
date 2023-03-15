@@ -9,6 +9,7 @@ const session = require("express-session");
 const auth_middleware = require("./middleware/auth");
 const { default: helmet } = require("helmet");
 const { User } = require("./Models");
+const jwt = require("jsonwebtoken");
 
 var sess = {
   secret: process.env.SESSION_SECRET,
@@ -41,8 +42,8 @@ db.once("open", () => {
 // Middleware
 app.use(express.json());
 
-// Endpoints (continued)
-app.post("/signIn", async (req, res) => {
+// TODO: ย้ายไปเก็บใน Crontrollers
+const signInFunc = async (req, res, next) => {
   const { username, password } = req.body;
   let find = { phoneNumber: username };
   if (username.indexOf("@") > 0) {
@@ -53,17 +54,31 @@ app.post("/signIn", async (req, res) => {
     if (!user) {
       res.status(400).json({ message: "User not found" });
     } else if (bcrypt.compareSync(password, user.password)) {
-      req.session.user = user;
-      res.status(200).json({
+      let resp_obj = {
         message: "Authentication successful",
-      });
+      };
+      if (req.url === "/signInJwt") {
+        // * ถ้าเข้าสู่ระบบผ่าน signInJwt จะเป็นการขอ token แทน
+        resp_obj.token = jwt.sign(
+          { sub: user._id, _id: user._id },
+          process.env.JWT_SECRET,
+          { expiresIn: process.env.JWT_TOKEN_EXPIRES_IN }
+        );
+      } else req.session.user = user;
+
+      res.status(200).json(resp_obj);
     } else {
       res.status(400).json({ message: "Invalid password" });
     }
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
-});
+};
+
+// Endpoints (continued)
+app.post("/signIn", signInFunc);
+// ? ต้องทำ refresh token ด้วยหรือไม่?
+app.post("/signInJwt", signInFunc);
 
 app.post("/signUp", async (req, res) => {
   const { fullName, email, password, phoneNumber } = req.body;
@@ -96,7 +111,7 @@ app.post("/signUp", async (req, res) => {
 app.get("/balanceSummary", auth_middleware, async (req, res) => {
   try {
     // * ดึงแยก user โดยใช้ _id แทน username
-    const user = await User.findById(req.session.user._id);
+    const user = await User.findById(req.user._id);
     if (!user) {
       res.status(400).json({ message: "User not found" });
     } else {
