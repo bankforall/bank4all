@@ -1,15 +1,44 @@
-# Bank For All
+# Bank For All - peer share and micro-finance platform for the poor people.
 
-this project is using angular as frontend and expressJS as backend
+This is an open-source project aimed at creating a peer sharing and microfinance platform for poor people. The platform will enable low-income individuals to access loans, as well as share resources and knowledge with each other, thereby creating a sustainable community.
 
-to run frontend locally please go to front-end folder and run `npm install` then `ng serve`
+## Technologies and Tools
 
-to run backend locally please go to backend folder and run `npm install` then `npm start`
+### Frontend Frameworks
 
-both front and back have their own readme file. please refer to them for more information
+- [React](https://reactjs.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [TypeScript](https://www.typescriptlang.org/)
 
-###### note that there's a react frontend in the project but it's not used anymore due to my lack of framework knowledge lol
+### Backend
 
-### to contribute, please feel free to make a pull request. we're currently working on business logic and database design right now. but can use extra hands on the frontend. especially the css side.
+- [Node.js](https://nodejs.org/en/)
+- [Express](https://expressjs.com/)
+- [MongoDB](https://www.mongodb.com/)
+- [Mongoose](https://mongoosejs.com/)
 
-for feature request/milestone. please refer to the project board. we're using github project board to manage the project.
+## Contributing
+
+you can contribute to this project by forking the repository and cloning below
+
+> here is the link to the [frontend repository](https://github.com/pleaseworkibegyou/bankForAllFrontEnd) and [backend repository](https://github.com/pleaseworkibegyou/bankForAllBackEnd)
+
+## Contribution Guidelines
+
+We welcome contributions from developers of all skill levels. Whether you're a seasoned developer or just starting out, there are many ways you can contribute to the project.
+
+### Reporting Issues
+
+If you find a bug or issue with the platform, please report it by opening an issue on our GitHub repository. Be sure to include as much detail as possible, including steps to reproduce the issue.
+
+### Submitting Bug Fixes or Features
+
+If you'd like to contribute code to the project, you can do so by submitting a pull request. Before submitting a pull request, please make sure to follow our coding standards and ensure that your changes are thoroughly tested.
+
+### Contributing to Documentation
+
+We also welcome contributions to the project's documentation. If you notice any errors or omissions in the documentation, please submit a pull request with your proposed changes.
+
+## License
+
+This project is licensed under the [MIT License](./LICENSE).
