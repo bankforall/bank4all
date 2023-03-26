@@ -4,6 +4,10 @@ This is an open-source project aimed at creating a peer sharing and microfinance
 
 The platform will enable them to access loans, as well as share resources and knowledge with each other, thereby creating a sustainable community.
 
+## Bussiness Plan & Pitch Deck
+
+- [Document](https://www.canva.com/design/DAFeSGtpxnA/P1nvqDp57HF2PghHxH4Irw/view?utm_content=DAFeSGtpxnA&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+
 ## Technologies and Tools
 
 ### Frontend Frameworks
