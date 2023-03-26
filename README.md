@@ -27,7 +27,7 @@ The platform will enable them to access loans, as well as share resources and kn
 
 you can contribute to this project by forking the repository and cloning below
 
-> here is the link to the [frontend repository](https://github.com/bankforall/bank4all-web) and [backend repository](https://github.com/bankforall/bank4all-api)
+> here is the link to the [frontend repository](https://github.com/bankforall/web) and [backend repository](https://github.com/bankforall/api)
 
 ## Contribution Guidelines
 
