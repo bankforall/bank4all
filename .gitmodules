@@ -1,6 +1,0 @@
-[submodule "bankForAllBackEnd"]
-	path = bankForAllBackEnd
-	url = git@github.com:pleaseworkibegyou/bankForAllBackEnd.git
-[submodule "bankForAllFrontEnd"]
-	path = bankForAllFrontEnd
-	url = git@github.com:pleaseworkibegyou/bankForAllFrontEnd.git
